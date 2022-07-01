@@ -1,2 +1,2 @@
 # lunar-lander
-Implementation of DQN on Lunar Lander environment
+Implementation of Deep Q-Learning on OpenAI Gym's Lunar Lander environment
