@@ -72,13 +72,13 @@ class DQLAgent:
         next_state = np.squeeze(np.array([i[3] for i in batch]))
         done = np.array([i[4] for i in batch])
 
-        target = reward + self.gamma * np.amax(self.model.predict_on_batch(next_state), \
+        q_val = reward + self.gamma * np.amax(self.model.predict_on_batch(next_state), \
                                                axis=1) * (1 - done)
-        target_f = self.model.predict_on_batch(state)
+        target = self.model.predict_on_batch(state)
         idx = np.arange(self.batch_size)
-        target_f[[idx], [action]] = target
+        target[[idx], [action]] = q_val
 
-        self.model.fit(state, target_f, epochs=1, verbose=0)
+        self.model.fit(state, target, epochs=1, verbose=0)
 
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
